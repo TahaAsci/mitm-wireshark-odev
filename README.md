@@ -9,7 +9,7 @@ Paketlerin aradaki kişi tarafından şifresiz olarak nasıl yakalandığını g
 - **2. Tur:** Yusuf gönderdi, Taha araya girip paketi yakaladı ve Resul'e iletti.
 - **3. Tur:** Taha gönderdi, Resul araya girip paketi yakaladı ve Yusuf'a iletti.
 
-Ağ trafiğini de Wireshark üzerinden dinleyip TCP akışını (TCP Stream) inceleyerek ekran görüntülerini aldık.
+Ağ trafiğini de Wireshark üzerinden dinleyip TCP akışını (TCP Stream) inceleyerek ekran görüntülerini aldık. Tüm turların ham paket kaydı da `mitm_trafigi.pcapng` dosyasında yer almaktadır.
 
 ---
 
