@@ -2,32 +2,22 @@
 
 **Grup Üyeleri:** Taha, Resul, Yusuf
 
-Bu çalışmada 3 kişi arasında dönüşümlü olarak Gönderici, Aradaki Kişi (MITM) ve Alıcı rolleri test edilmiş, aradaki kişinin şifresiz ağ paketlerini nasıl yakaladığı Wireshark ile görüntülenmiştir.
+Bu ödevde 3 kişi arasında Python socket kullanarak basit bir MITM (aradaki adam) simülasyonu yaptık. Birimiz gönderici, birimiz aradaki dinleyici, birimiz de alıcı oldu. 
 
-## Rol Dağılımı
+Paketlerin aradaki kişi tarafından şifresiz olarak nasıl yakalandığını görmek için 3 tur yaptık ve rolleri aramızda değiştirdik:
+- **1. Tur:** Taha gönderdi, Yusuf araya girip paketi yakaladı ve Resul'e iletti.
+- **2. Tur:** Yusuf gönderdi, Taha araya girip paketi yakaladı ve Resul'e iletti.
+- **3. Tur:** Taha gönderdi, Resul araya girip paketi yakaladı ve Yusuf'a iletti.
 
-| Tur | Gönderen | Aradaki Kişi (MITM) | Alıcı |
-| :--- | :--- | :--- | :--- |
-| **1. Tur** | Taha | Yusuf | Resul |
-| **2. Tur** | Yusuf | Taha | Resul |
-| **3. Tur** | Taha | Resul | Yusuf |
+Ağ trafiğini de Wireshark üzerinden dinleyip TCP akışını (TCP Stream) inceleyerek ekran görüntülerini aldık.
 
-## Kod Dosyaları
+---
 
-- `alici.py` — Hedef sunucu (Port 6000)
-- `mitm.py` — Araya girip paketi yakalayan ve alıcıya ileten vekil (Port 5000)
-- `gonderici.py` — Paketi aradaki kişiye yollayan istemci
-- `test_3_tur.py` — 3 turu sırayla çalıştıran test kodu
+## 1. Tur Ekran Görüntüsü (Taha -> Yusuf -> Resul)
+![1. Tur](screenshots/tur1_wireshark.png)
 
-## Wireshark Ekran Görüntüleri
+## 2. Tur Ekran Görüntüsü (Yusuf -> Taha -> Resul)
+![2. Tur](screenshots/tur2_wireshark.png)
 
-Wireshark üzerinden yakalanan paketlerin TCP Stream (açık metin) görüntüleri:
-
-### 1. Tur: Taha -> (Yusuf MITM) -> Resul
-![1. Tur Wireshark](screenshots/tur1_wireshark.png)
-
-### 2. Tur: Yusuf -> (Taha MITM) -> Resul
-![2. Tur Wireshark](screenshots/tur2_wireshark.png)
-
-### 3. Tur: Taha -> (Resul MITM) -> Yusuf
-![3. Tur Wireshark](screenshots/tur3_wireshark.png)
+## 3. Tur Ekran Görüntüsü (Taha -> Resul -> Yusuf)
+![3. Tur](screenshots/tur3_wireshark.png)
