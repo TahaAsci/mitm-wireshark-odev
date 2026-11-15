@@ -1,8 +1,8 @@
-# MITM (Ortadaki Adam) Saldırısı ve Wireshark Paket Analizi
+# MITM ve Wireshark Ödevi
 
 **Grup Üyeleri:** Taha, Resul, Yusuf
 
-Bu projede Python socket kütüphanesi kullanılarak istemci (gönderici), aradaki vekil (MITM) ve alıcı sunucu arasında temel bir ağ iletişimi kurulmuştur. 3 kişi arasında roller dönüşümlü olarak değiştirilmiş ve araya giren kişinin şifrelenmemiş ağ paketlerini nasıl okuyabildiği Wireshark ile incelenmiştir.
+Bu çalışmada 3 kişi arasında dönüşümlü olarak Gönderici, Aradaki Kişi (MITM) ve Alıcı rolleri test edilmiş, aradaki kişinin şifresiz ağ paketlerini nasıl yakaladığı Wireshark ile görüntülenmiştir.
 
 ## Rol Dağılımı
 
@@ -12,40 +12,22 @@ Bu projede Python socket kütüphanesi kullanılarak istemci (gönderici), arada
 | **2. Tur** | Yusuf | Taha | Resul |
 | **3. Tur** | Taha | Resul | Yusuf |
 
-## Dosyalar
+## Kod Dosyaları
 
-- `alici.py` — Hedef sunucu (Port: 6000)
-- `mitm.py` — Araya girip paketi yakalayan ve hedefe ileten vekil (Port: 5000)
-- `gonderici.py` — Paketi MITM üzerinden alıcıya gönderen istemci
-- `test_3_tur.py` — 3 turu arka arkaya çalıştıran test betiği
-- `screenshots/` — Wireshark ekran görüntüleri
+- `alici.py` — Hedef sunucu (Port 6000)
+- `mitm.py` — Araya girip paketi yakalayan ve alıcıya ileten vekil (Port 5000)
+- `gonderici.py` — Paketi aradaki kişiye yollayan istemci
+- `test_3_tur.py` — 3 turu sırayla çalıştıran test kodu
 
-## Nasıl Çalıştırılır?
+## Wireshark Ekran Görüntüleri
 
-Tek bir komutla 3 turun tamamını çalıştırmak için:
+Wireshark üzerinden yakalanan paketlerin TCP Stream (açık metin) görüntüleri:
 
-```bash
-py test_3_tur.py
-```
+### 1. Tur: Taha -> (Yusuf MITM) -> Resul
+![1. Tur Wireshark](screenshots/tur1_wireshark.png)
 
-Ayrı ayrı çalıştırmak için sıra şöyledir:
-1. `py alici.py`
-2. `py mitm.py`
-3. `py gonderici.py`
+### 2. Tur: Yusuf -> (Taha MITM) -> Resul
+![2. Tur Wireshark](screenshots/tur2_wireshark.png)
 
-## Wireshark Analizi
-
-Wireshark'ta `tcp.port == 5000` filtresi uygulanmış ve yakalanan TCP paketine sağ tıklanarak **Follow -> TCP Stream** seçilmiştir:
-
-### 1. Tur (Taha -> Yusuf [MITM] -> Resul)
-![Tur 1 Wireshark](screenshots/tur1_wireshark.png)
-
-### 2. Tur (Yusuf -> Taha [MITM] -> Resul)
-![Tur 2 Wireshark](screenshots/tur2_wireshark.png)
-
-### 3. Tur (Taha -> Resul [MITM] -> Yusuf)
-![Tur 3 Wireshark](screenshots/tur3_wireshark.png)
-
-## Sonuç
-
-Şifresiz TCP bağlantılarında araya giren üçüncü bir taraf ağ trafiğini dinleyerek tüm veriyi açık metin (plaintext) olarak görebilmektedir. Bu durumun önüne geçmek için iletim katmanında SSL/TLS (HTTPS vb.) protokolleri kullanılmalıdır.
+### 3. Tur: Taha -> (Resul MITM) -> Yusuf
+![3. Tur Wireshark](screenshots/tur3_wireshark.png)
